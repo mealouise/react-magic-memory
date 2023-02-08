@@ -25,6 +25,8 @@ function App() {
       .sort(() => Math.random() - 0.5)
       .map((card) => ({ ...card, id: Math.random() }))
 
+    setChoiceOne(null)
+    setChoiceTwo(null)
     setCards(shuffleCards)
     setTurns(0)
   }
@@ -60,13 +62,19 @@ function App() {
   }, [choiceOne, choiceTwo])
   console.log(cards)
 
-
+//reset choices & increase turn
   const resetTurn = () => {
     setChoiceOne(null)
     setChoiceTwo(null)
     setTurns(prevTurns => prevTurns + 1)
     setDisabled(false)
   }
+
+//start game automatically
+useEffect(() => {
+  shuffleCards()
+}, [])
+
   return (
     <div className="App">
       <h1>Magic Match</h1>
@@ -82,6 +90,7 @@ function App() {
             flipped={card === choiceOne || card === choiceTwo || card.matched} 
             disabled={disabled} />
         ))}
+        <p>Turns : {turns}</p>
       </div>
     </div>
   );
