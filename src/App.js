@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import "./App.css";
 import SingleCard from "./components/SingleCard";
@@ -29,12 +29,31 @@ function App() {
   }
   console.log(cards, turns)
 
-//handle choice
-const handleChoice = (card) => {
-  // console.log(card)
-  choiceOne ? setChoiceTwo(card) : setChoiceOne(card)
-}
+  //handle choice
+  const handleChoice = (card) => {
+    // console.log(card)
+    choiceOne ? setChoiceTwo(card) : setChoiceOne(card)
+  }
 
+  //compare 2 selected cards
+  useEffect(() => {
+    if (choiceOne && choiceTwo) {
+      if (choiceOne.src === choiceTwo.src) {
+        console.log("choices match")
+        resetTurn()
+      } else {
+        console.log("the cards don't match")
+        resetTurn()
+      }
+    }
+  }, [choiceOne, choiceTwo])
+
+
+  const resetTurn = () => {
+    setChoiceOne(null)
+    setChoiceTwo(null)
+    setTurns(prevTurns => prevTurns + 1)
+  }
   return (
     <div className="App">
       <h1>Magic Match</h1>
@@ -43,10 +62,10 @@ const handleChoice = (card) => {
       <div className="card-grid">
 
         {cards.map(card => (
-          <SingleCard 
-          key={card.id} 
-          card={card}
-          handleChoice={handleChoice} />
+          <SingleCard
+            key={card.id}
+            card={card}
+            handleChoice={handleChoice} />
         ))}
       </div>
     </div>
