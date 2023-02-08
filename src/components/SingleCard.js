@@ -1,13 +1,22 @@
 import React from "react";
 import "./SingleCard.css";
 
-const SingleCard = ({card}) => (
-    <div className="card">
-        <div>
-            <img className="front" src={card.src} alt="card front" />
-            <img className="back" src="/img/cover.png" alt="card back" />
-        </div>
-    </div>
-)
+export default function SingleCard({ card, handleChoice }) {
 
-export default SingleCard;
+    const handleClick = () => {
+        handleChoice(card)
+    }
+
+    return (
+        <div className="card">
+            <div>
+                <img className="front" src={card.src} alt="card front" />
+                <img
+                    className="back"
+                    src="/img/cover.png"
+                    onClick={handleClick}
+                    alt="card back" />
+            </div>
+        </div>
+    )
+}
